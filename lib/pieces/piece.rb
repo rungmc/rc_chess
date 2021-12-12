@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 # Generic chess piece class.
-class ChessPiece
+class Piece
   attr_reader :team, :symbol
   attr_accessor :moved
   alias moved? moved
 
-  def initialize(team, symbol = 'P', moved: false)
+  def initialize(team, symbol, moved: false)
     @team = team
     @symbol = symbol
     @moved = moved
