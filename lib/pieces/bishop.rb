@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-require_relative 'chess_piece'
+require_relative 'Piece'
+
 # Basic state and moveset for bishops.
-class Bishop < ChessPiece
+class Bishop < Piece
 end

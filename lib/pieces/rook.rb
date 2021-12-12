@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-require_relative 'chess_piece'
+require_relative 'piece'
+
 # Basic state and moveset for rooks.
-class Rook < ChessPiece
+class Rook < Piece
 end
