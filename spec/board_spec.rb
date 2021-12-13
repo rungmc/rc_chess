@@ -15,11 +15,11 @@ describe Board do
   describe '#fresh_board' do
     context 'when starting a new game' do
       it 'creates a row of white pawns at A2-H2/(0..7, 1)' do
-        board.board.each { |i| expect(i[1].is_a?(Pawn)).to be true }
+        board.grid.each { |i| expect(i[1].is_a?(Pawn)).to be true }
       end
 
       it 'creates a row of black pawns at A7-H7/(0..7, 6)' do
-        board.board.each { |i| expect(i[6].is_a?(Pawn)).to be true }
+        board.grid.each { |i| expect(i[6].is_a?(Pawn)).to be true }
       end
     end
   end

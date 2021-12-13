@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'board'
+require_relative 'display'
 
 # Runs a game of chess.
 class Game
@@ -9,12 +10,13 @@ class Game
   def initialize(board = Board.new, white_turn: true)
     @board = board
     @white_turn = white_turn
+    draw(@board.grid)
   end
 
   def play
     loop do
       player_input
-      update_board # disp method
+      draw(board)
       break if @board.checkmate?
 
       change_turns
