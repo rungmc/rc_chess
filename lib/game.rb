@@ -10,13 +10,13 @@ class Game
   def initialize(board = Board.new, white_turn: true)
     @board = board
     @white_turn = white_turn
-    draw(@board.grid)
+    draw(@board) # Display method
   end
 
   def play
     loop do
       player_input
-      draw(board)
+      draw(@board)
       break if @board.checkmate?
 
       change_turns

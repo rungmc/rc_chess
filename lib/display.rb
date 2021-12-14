@@ -23,40 +23,77 @@ module Display
     }
   }.freeze
   COLUMN_LABELS = %w[A B C D E F G H].freeze
-  EMPTY_SPACE = "\u00A0"
-  # HORIZ_SPACER = "\u2009"
+  EMPTY_SPACE = "\u00a0"
 
-  def initialize
-    Curses.init_screen
-    Curses.start_color
-    Curses.init_pair(1, Curses::COLOR_WHITE, Curses::COLOR_BLACK) # Black sq
-    Curses.init_pair(2, Curses::COLOR_BLACK, Curses::COLOR_WHITE) # White sq
-    # Curses.init_pair(3) # Purp sq (show moves)
-    # Curses.init_pair(4) # Green sq (selected)
-  end
+  Curses.init_screen
+  Curses.start_color
+  Curses.init_pair(1, Curses::COLOR_WHITE, Curses::COLOR_BLACK) # "Black" sq
+  Curses.init_pair(2, Curses::COLOR_WHITE, Curses::COLOR_GREEN) # White sq
+  Curses.init_pair(3, Curses::COLOR_WHITE, Curses::COLOR_RED) # Avail. moves
 
-  def menu
-  end
+  def menu; end
 
-  def draw(board)
-    label_grid
-    board.each_with_index do |col, y|
-      col.each_with_index do |square, x|
-        Curses.setpos(x, (y * 2) + 2)
-        Curses.attrset(Curses.color_pair(2))
-        Curses.addstr(square.nil? ? EMPTY_SPACE : PIECES_UNICODE[square.team][square.symbol])
-        Curses.addstr(EMPTY_SPACE)
-      end
-    end
+  # Draws the screen
+  def draw(board, white_turn = true, status_msg = "Test message!")
+    label_board
+    draw_board(board.grid)
+    Curses.attrset(Curses.color_pair(1))
+    draw_history(board.history)
+    draw_turn(white_turn)
+    draw_status(status_msg)
     Curses.refresh
   end
 
-  def label_grid
+  # Draws chess board and pieces
+  def draw_board(board)
+    white_space = true
+    board.each_with_index do |col, x|
+      col.each_with_index do |square, y|
+        # Curses uses (y, x) for coords.
+        Curses.setpos(y + 1, (x * 2) + 3)
+        Curses.attrset(white_space ? Curses.color_pair(2) : Curses.color_pair(1))
+        Curses.addstr((square.nil? ? EMPTY_SPACE : PIECES_UNICODE[square.team][square.symbol]) + EMPTY_SPACE)
+        white_space = !white_space
+      end
+      white_space = !white_space
+    end
+  end
+
+  # Labels grid
+  def label_board
+    Curses.attrset(Curses.color_pair(1))
     (0..7).each do |i|
-      Curses.setpos(7 - i, 0)
+      Curses.setpos(8 - i, 1)
       Curses.addstr((i + 1).to_s)
-      Curses.setpos(8, (i * 2) + 2)
-      Curses.addstr(COLUMN_LABELS[i] + EMPTY_SPACE)
+      Curses.setpos(9, (i * 2) + 3)
+      Curses.addstr(COLUMN_LABELS[i])
+    end
+  end
+
+  # Tells player whose turn it is
+  def draw_turn(white_turn)
+    Curses.setpos(11, 1)
+    turn = white_turn ? 'white' : 'black'
+    Curses.addstr("It is #{turn}'s turn.")
+  end
+
+  # Status text at bottom
+  def draw_status(status_msg)
+    return if status_msg.nil?
+
+    Curses.setpos(12, 1)
+    Curses.addstr(status_msg)
+  end
+
+  # Displays last 7 moves
+  def draw_history(history)
+    Curses.setpos(1, 20)
+    Curses.addstr('Recent:')
+    (0..6).each do |i|
+      break if history[i].nil?
+
+      Curses.setpos(i + 2, 22)
+      Curses.addstr(history[i])
     end
   end
 end
