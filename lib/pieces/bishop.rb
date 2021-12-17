@@ -6,22 +6,86 @@ require_relative 'piece'
 class Bishop < Piece
   def moveset(board, row, col)
     moves = []
-    moves += forward_right(board, row, col)
-    moves += forward_left(board, row, col)
-    moves += backward_right(board, row, col)
-    moves += backward_left(board, row, col)
+    # Evaluates each direction from the bishop outward.
+    moves + right_up(board, row, col) + right_down(board, row, col) +
+      left_up(board, row, col) + left_down(board, row, col)
   end
 
-  def forward_right(board, row, col)
-    ((row + 1)..7).each do
+  private
+
+  def right_up(board, row, col)
+    moves = []
+    # Iterates to board edge (x axis).
+    ((row + 1)..7).each_with_index do |row_index, steps|
+      col_index = (col + 1) + steps
+      # Guards vs out of bounds (y axis).
+      break if col_index > 7
+
+      curr_sq = board[row_index][col_index]
+      # Breaks unless sq empty or enemy piece.
+      break unless curr_sq.nil? || curr_sq.team != @team
+
+      moves << [row_index][col_index]
+      # Breaks after capture.
+      break if curr_sq.team != @team
+    end
+    moves
   end
 
-  def forward_left(board, row, col)
+  def right_down(board, row, col)
+    moves = []
+    # Iterates to board edge (x axis).
+    ((row + 1)..7).each_with_index do |row_index, steps|
+      col_index = (col - 1) - steps
+      # Guards vs out of bounds (y axis).
+      break if col_index.negative?
+
+      curr_sq = board[row_index][col_index]
+      # Breaks unless sq empty or enemy piece.
+      break unless curr_sq.nil? || curr_sq.team != @team
+
+      moves << [row_index][col_index]
+      # Breaks after capture.
+      break if curr_sq.team != @team
+    end
+    moves
   end
 
-  def backward_right(board, row, col)
+  def left_up(board, row, col)
+    moves = []
+    # Iterates to board edge (x axis).
+    (0..(row - 1)).reverse.each_with_index do |row_index, steps|
+      col_index = (col + 1) + steps
+      # Guards vs out of bounds (y axis).
+      break if col_index > 7
+
+      curr_sq = board[row_index][col_index]
+      # Breaks unless sq empty or enemy piece.
+      break unless curr_sq.nil? || curr_sq.team != @team
+
+      moves << [row_index][col_index]
+      # Breaks after capture.
+      break if curr_sq.team != @team
+    end
+    moves
   end
 
-  def backward_left(board, row, col)
+  def left_down(board, row, col)
+    moves = []
+    # Iterates to board edge (x axis).
+    (0..(row - 1)).reverse.each_with_index do |row_index, steps|
+      col_index = (col - 1) - steps
+      # Guards vs out of bounds (y axis).
+      break if col_index.negative?
+
+      curr_sq = board[row_index][col_index]
+      # Breaks unless sq empty or enemy piece.
+      break unless curr_sq.nil? || curr_sq.team != @team
+
+      moves << [row_index][col_index]
+      # Breaks after capture.
+      break if curr_sq.team != @team
+    end
+    moves
   end
 end

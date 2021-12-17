@@ -19,7 +19,7 @@ class King < Piece
   private
 
   # Castling - must be first move for both king & rook, no spaces occupied between them.
-  # Returns the coordinates of eligible rooks for handling by board.
+  # Returns the coordinates of eligible rooks for handling by game.
   def castling(board, col)
     moves = []
     return moves if moved?
