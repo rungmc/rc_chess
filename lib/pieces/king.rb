@@ -8,12 +8,8 @@ class King < Piece
 
   def moveset(board, row, col)
     moves = []
-    KING_MOVES.each do |i|
-      next_pos = board[i[0] + row][i[1] + col]
-      moves << [i[0] + row, i[1] + col] unless next_pos.team == @team
-    end
-    moves += castling(board, col)
-    moves
+    moves += teleport(KING_MOVES, board, row, col)
+    moves + castling(board, col)
   end
 
   private
@@ -25,13 +21,13 @@ class King < Piece
     return moves if moved?
 
     # King side castle.
-    moves += [7, col] if !board[7][col].moved? && check_empty(5..6, col)
+    moves += [7, col] if !board[7][col].moved? && check_path(5..6, col)
     # Queen side castle.
-    moves += [0, col] if !board[0][col].moved? && check_empty(1..3, col)
+    moves += [0, col] if !board[0][col].moved? && check_path(1..3, col)
     moves
   end
 
-  def check_empty(row_range, col)
+  def check_path(row_range, col)
     board[row_range].all? { |i| i[col].nil? }
   end
 end

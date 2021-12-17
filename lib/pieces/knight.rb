@@ -8,10 +8,6 @@ class Knight < Piece
 
   def moveset(board, row, col)
     moves = []
-    KNIGHT_MOVES.each do |i|
-      next_pos = board[i[0] + row][i[1] + col]
-      moves << [i[0] + row, i[1] + col] unless next_pos.team == @team
-    end
-    moves
+    moves + teleport(KNIGHT_MOVES, board, row, col)
   end
 end
