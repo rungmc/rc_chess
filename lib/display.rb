@@ -25,16 +25,17 @@ module Display
   COLUMN_LABELS = %w[A B C D E F G H].freeze
   EMPTY_SPACE = "\u00a0"
 
+  # Initializes curses and establishes color patterns
   Curses.init_screen
   Curses.start_color
   Curses.init_pair(1, Curses::COLOR_WHITE, Curses::COLOR_BLACK) # "Black" sq
-  Curses.init_pair(2, Curses::COLOR_WHITE, Curses::COLOR_GREEN) # White sq
+  Curses.init_pair(2, Curses::COLOR_WHITE, Curses::COLOR_MAGENTA) # White sq
   Curses.init_pair(3, Curses::COLOR_WHITE, Curses::COLOR_RED) # Avail. moves
 
   def menu; end
 
   # Draws the screen
-  def draw(board, white_turn = true, status_msg = "Test message!")
+  def draw(board, white_turn, status_msg = '')
     label_board
     draw_board(board.grid)
     Curses.attrset(Curses.color_pair(1))
@@ -79,8 +80,6 @@ module Display
 
   # Status text at bottom
   def draw_status(status_msg)
-    return if status_msg.nil?
-
     Curses.setpos(12, 1)
     Curses.addstr(status_msg)
   end

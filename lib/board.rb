@@ -37,6 +37,8 @@ class Board
     @history << "#{piece.symbol}#{readable(start)}#{check_capture(destination)}#{readable(dest)}"
   end
 
+  private
+
   # Translates internally used coordinates to chess notation.
   def readable(coord)
     "#{%w[A B C D E F G H][coord[0]]}#{coord[1] + 1}"
@@ -46,8 +48,6 @@ class Board
   def check_capture(coord)
     @grid[coord[0]][coord[1]].nil? ? '-' : "x#{@grid[coord[0]][coord[1]].symbol}"
   end
-
-  private
 
   def place_pawns(grid)
     grid.each do |row|
