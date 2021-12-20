@@ -35,12 +35,12 @@ module Display
   def menu; end
 
   # Draws the screen
-  def draw(board, white_turn, status_msg = '')
+  def draw(board, current_turn, status_msg = '')
     label_board
     draw_board(board.grid)
     Curses.attrset(Curses.color_pair(1))
     draw_history(board.history)
-    draw_turn(white_turn)
+    draw_turn(current_turn)
     draw_status(status_msg)
     Curses.refresh
   end
@@ -72,9 +72,9 @@ module Display
   end
 
   # Tells player whose turn it is
-  def draw_turn(white_turn)
+  def draw_turn(current_turn)
     Curses.setpos(11, 1)
-    turn = white_turn ? 'white' : 'black'
+    turn = current_turn == 'white' ? 'white' : 'black'
     Curses.addstr("It is #{turn}'s turn.")
   end
 

@@ -15,6 +15,7 @@ class Board
   def initialize(grid = fresh_board, history = [])
     @grid = grid
     @history = history
+    @check = check
   end
 
   def fresh_board
@@ -29,12 +30,14 @@ class Board
   end
 
   # Executes a move (no checks for validity) and adds it to the grid history.
-  def move(piece, start, destination)
+  def move(start, destination)
+    piece = @grid[start[0]][start[1]]
     @grid[start[0]][start[1]] = nil
     @grid[destination[0]][destination[1]] = piece
     piece.moved = true
 
     @history << "#{piece.symbol}#{readable(start)}#{check_capture(destination)}#{readable(dest)}"
+    nil
   end
 
   private

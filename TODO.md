@@ -2,7 +2,7 @@
 
 - Rspec tests: king, queen, pawn (others should work if these work correctly)
 
-- Board: 'check' state
+- Game: 'check', 'checkmate' state
 
 - Looking into future (clone board): Can't move self into check or checkmate, can't castle through check, during check move must result in checkless board
 
