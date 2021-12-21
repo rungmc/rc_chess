@@ -41,9 +41,9 @@ class Piece
       # Breaks unless sq empty or enemy piece.
       break unless curr_sq.nil? || curr_sq.team != @team
 
-      moves << [row_index][col]
+      moves << [row_index, col]
       # Breaks after capture.
-      break if curr_sq.team != @team
+      break unless curr_sq.nil?
     end
     moves
   end
@@ -51,14 +51,14 @@ class Piece
   def left(board, row, col)
     moves = []
     # Iterates to board edge (x axis).
-    (0..(row + 1)).reverse.each do |row_index|
+    (0..(row - 1)).reverse_each do |row_index|
       curr_sq = board[row_index][col]
       # Breaks unless sq empty or enemy piece.
       break unless curr_sq.nil? || curr_sq.team != @team
 
-      moves << [row_index][col]
+      moves << [row_index, col]
       # Breaks after capture.
-      break if curr_sq.team != @team
+      break unless curr_sq.nil?
     end
     moves
   end
@@ -71,9 +71,9 @@ class Piece
       # Breaks unless sq empty or enemy piece.
       break unless curr_sq.nil? || curr_sq.team != @team
 
-      moves << [row][col_index]
+      moves << [row, col_index]
       # Breaks after capture.
-      break if curr_sq.team != @team
+      break unless curr_sq.nil?
     end
     moves
   end
@@ -81,14 +81,14 @@ class Piece
   def down(board, row, col)
     moves = []
     # Iterates to board edge (y axis).
-    (0..(col - 1)).reverse.each do |col_index|
+    (0..(col - 1)).reverse_each do |col_index|
       curr_sq = board[row][col_index]
       # Breaks unless sq empty or enemy piece.
       break unless curr_sq.nil? || curr_sq.team != @team
 
-      moves << [row][col_index]
+      moves << [row, col_index]
       # Breaks after capture.
-      break if curr_sq.team != @team
+      break unless curr_sq.nil?
     end
     moves
   end
@@ -107,9 +107,9 @@ class Piece
       # Breaks unless sq empty or enemy piece.
       break unless curr_sq.nil? || curr_sq.team != @team
 
-      moves << [row_index][col_index]
+      moves << [row_index, col_index]
       # Breaks after capture.
-      break if curr_sq.team != @team
+      break unless curr_sq.nil?
     end
     moves
   end
@@ -126,9 +126,9 @@ class Piece
       # Breaks unless sq empty or enemy piece.
       break unless curr_sq.nil? || curr_sq.team != @team
 
-      moves << [row_index][col_index]
+      moves << [row_index, col_index]
       # Breaks after capture.
-      break if curr_sq.team != @team
+      break unless curr_sq.nil?
     end
     moves
   end
@@ -136,7 +136,7 @@ class Piece
   def left_up(board, row, col)
     moves = []
     # Iterates to board edge (x axis).
-    (0..(row - 1)).reverse.each_with_index do |row_index, steps|
+    (0..(row - 1)).to_a.reverse.each_with_index do |row_index, steps|
       col_index = (col + 1) + steps
       # Guards vs out of bounds (y axis).
       break if col_index > 7
@@ -145,9 +145,9 @@ class Piece
       # Breaks unless sq empty or enemy piece.
       break unless curr_sq.nil? || curr_sq.team != @team
 
-      moves << [row_index][col_index]
+      moves << [row_index, col_index]
       # Breaks after capture.
-      break if curr_sq.team != @team
+      break unless curr_sq.nil?
     end
     moves
   end
@@ -155,7 +155,7 @@ class Piece
   def left_down(board, row, col)
     moves = []
     # Iterates to board edge (x axis).
-    (0..(row - 1)).reverse.each_with_index do |row_index, steps|
+    (0..(row - 1)).to_a.reverse.each_with_index do |row_index, steps|
       col_index = (col - 1) - steps
       # Guards vs out of bounds (y axis).
       break if col_index.negative?
@@ -164,9 +164,9 @@ class Piece
       # Breaks unless sq empty or enemy piece.
       break unless curr_sq.nil? || curr_sq.team != @team
 
-      moves << [row_index][col_index]
+      moves << [row_index, col_index]
       # Breaks after capture.
-      break if curr_sq.team != @team
+      break unless curr_sq.nil?
     end
     moves
   end
