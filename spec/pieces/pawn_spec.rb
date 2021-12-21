@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require_relative '../../lib/board'
 require_relative '../../lib/pieces/piece'
 require_relative '../../lib/pieces/pawn'
 

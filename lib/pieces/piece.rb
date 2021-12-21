@@ -23,10 +23,10 @@ class Piece
       x_index = i[0] + row
       y_index = i[1] + col
       # Guards against out of bounds
-      next unless x_index.between?(0, 7) && y_index.between(0, 7)
+      next unless x_index.between?(0, 7) && y_index.between?(0, 7)
 
       next_pos = board[x_index][y_index]
-      moves << [x_index, y_index] unless next_pos.team == @team
+      moves << [x_index, y_index] if next_pos.nil? || next_pos.team != @team
     end
     moves
   end
