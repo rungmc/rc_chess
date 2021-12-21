@@ -6,8 +6,8 @@ require_relative 'piece'
 class Pawn < Piece
   def moveset(board, row, col)
     moves = []
-    moves << standard(board, row, col)
-    moves << opening_double(board, row, col)
+    moves += standard(board, row, col)
+    moves += opening_double(board, row, col)
     moves += capture(board, row, col)
     moves
   end
@@ -24,27 +24,29 @@ class Pawn < Piece
   # Moves forward one space if free
   def standard(board, row, col)
     y_displace = team_mod(1)
-    return unless board[row][col + y_displace].nil?
+    return [] unless board[row][col + y_displace].nil?
 
-    [row, col + y_displace]
+    [[row, col + y_displace]]
   end
 
   # Moves forward two spaces if first move and free
   def opening_double(board, row, col)
     y_displace = team_mod(2)
-    return unless board[row][col + y_displace].nil? && !moved?
+    return [] unless board[row][col + y_displace].nil? && board[row][col + (y_displace / 2)].nil? && !moved?
 
-    [row, col + y_displace]
+    [[row, col + y_displace]]
   end
 
   # Captures diagonally.
   def capture(board, row, col)
     moves = []
-    y_displace = team_mod(1)
-    right_diag = board[row + 1][col + y_displace]
-    left_diag = board[row - 1][col + y_displace]
-    moves << right_diag unless right_diag.nil? || right_diag.team == @team
-    moves << left_diag unless left_diag.nil? || left_diag.team == @team
+    y_index = col + team_mod(1)
+    x_right = row + 1
+    x_left = row - 1
+    right_diag = [x_right, y_index] unless row == 7 || !y_index.between?(0, 7)
+    left_diag = [x_left, y_index] unless row.zero? || !y_index.between?(0, 7)
+    moves << right_diag unless board[x_right][y_index].nil? || board[x_right][y_index].team == @team
+    moves << left_diag unless board[x_left][y_index].nil? || board[x_left][y_index].team == @team
     moves
   end
 end
