@@ -15,7 +15,6 @@ class Board
   def initialize(grid = fresh_board, history = [])
     @grid = grid
     @history = history
-    @check = check
   end
 
   def fresh_board

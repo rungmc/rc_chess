@@ -13,3 +13,9 @@
 - GUI: mouse-driven or keyboard?  stick with curses?
 
 - Trim piece.rb
+
+Rubocop cleanup:
+
+- Pawn.rb - complexity #41
+
+- Piece.rb - length
