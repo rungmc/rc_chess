@@ -35,7 +35,7 @@ class Board
     @grid[destination[0]][destination[1]] = piece
     piece.moved = true
 
-    @history << "#{piece.symbol}#{readable(start)}#{check_capture(destination)}#{readable(dest)}"
+    @history << "#{piece.symbol}#{readable(start)}#{check_capture(destination)}#{readable(destination)}"
     nil
   end
 

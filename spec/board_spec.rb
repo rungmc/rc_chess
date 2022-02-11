@@ -24,6 +24,26 @@ describe Board do
     end
   end
 
+  describe '#move' do
+    let(:origin) { [0, 1] }
+    let(:dest) { [0, 2] }
+
+    context 'executes a movement from an origin point to a destination point' do
+      before { board.move(origin, dest) }
+
+      it 'adds the piece at the destination coordinate' do
+        dest_sq = board.grid[dest[0]][dest[1]]
+        expect(dest_sq).not_to be_nil
+        expect(dest_sq).to be_a Pawn
+      end
+
+      it 'removes the piece from the origin coordinate' do
+        start_sq = board.grid[origin[0]][origin[1]]
+        expect(start_sq).to be_nil
+      end
+    end
+  end
+
   # Currently skipped, passes if method is not private.
   describe '#readable' do
     context 'when given a set of x,y coordinates' do

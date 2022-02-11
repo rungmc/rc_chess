@@ -7,14 +7,20 @@ require_relative 'display'
 class Game
   include Display
 
+  attr_reader :board, :current_turn
+
   def initialize(board = Board.new, current_turn = 'white')
     @board = board
     @current_turn = current_turn
-    draw(@board, @current_turn) # Display method
   end
+
+  ###############################################
+  # Gameplay loop
+  ###############################################
 
   def play
     loop do
+      draw(@board, @current_turn) # Display method
       player_input
       draw(@board, @current_turn)
       break if checkmate? || stalemate?
@@ -42,9 +48,9 @@ class Game
 
   # Clones board and applies the next move for validation purposes.
   def next_board(start, destination)
-    next_board = @board.grid
+    next_board = @board
     next_board.move(start, destination)
-    next_board
+    next_board.grid
   end
 
   # Iterates through board square by square.
@@ -92,7 +98,7 @@ class Game
 
   # Disallows moves that result in self-check.
   def filter_illegal(coord)
-    potential_moves = @board[coord[0]][coord[1]].moveset
+    potential_moves = @board.grid[coord[0]][coord[1]].moveset
     potential_moves = potential_moves.reject { |move| check?(next_board(coord, move), change_turns) }
     potential_moves - filter_castle(coord, potential_moves)
   end

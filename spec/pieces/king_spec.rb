@@ -4,7 +4,7 @@ require_relative '../../lib/pieces/piece'
 require_relative '../../lib/pieces/king'
 require_relative '../../lib/pieces/rook'
 
-describe 'King' do
+describe King do
   let(:bkg) { King.new('black', 'K') }
   let(:wkg) { King.new('white', 'K') }
   let(:brk) { Rook.new('black', 'R') }
